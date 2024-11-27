@@ -1,0 +1,186 @@
+﻿@model IEnumerable<VitalFlow.Models.HUB>
+
+@{
+    ViewData["Title"] = "Hub";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VitalFlow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/VitalFlow.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: black; /* Crna boja za h1 */
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        h2 {
+            color: white; /* Zadani stil za h2 */
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .heading-secondary {
+            color: black; /* Crna boja za h2 sa klasom heading-secondary */
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .form-container {
+            margin-top: 50px;
+            width: calc(100% - 60px);
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            color: #fff;
+        }
+
+        .form-group label {
+            color: #fff;
+            text-align: left; /* Poravnanje teksta na lijevu stranu */
+            display: block; /* Da bi labela zauzela širinu kontejnera */
+            font-size: 18px; /* Veća veličina fonta za labelu */
+            margin-bottom: 10px; /* Malo veći razmak ispod labela */
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white; /* Bijela boja teksta unutar select polja */
+            font-size: 16px; /* Veličina fonta za input/select polja */
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px; /* Povećavanje paddinga za dugmiće */
+            border: none;
+            border-radius: 5px;
+            background-color: #dc3545; /* Crvena boja za dugmiće */
+            color: #fff;
+            cursor: pointer;
+            margin-top: 20px; /* Povećan razmak između dugmeta i prethodnog elementa */
+            max-width: 300px; /* Maksimalna širina dugmeta */
+            width: 100%; /* Ograničava širinu dugmića na 100% kontejnera */
+            text-align: center; /* Centrira tekst unutar dugmića */
+            display: block; /* Postavlja dugmiće kao blok elemente */
+            margin-left: auto; /* Centriranje na horizontali */
+            margin-right: auto; /* Centriranje na horizontali */
+        }
+
+            .btn-primary:hover, .btn-secondary:hover {
+                background-color: #c82333; /* Tamnija crvena boja na hover */
+            }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            align-items: center; /* Centriranje dugmića */
+        }
+
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Razmak između kontejnera */
+            margin-top: 30px;
+        }
+
+        .btn-view-termini {
+            background-color: #dc3545; /* Crvena boja za button */
+            color: #fff;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7); /* Crni border/container */
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            color: #fff;
+            text-align: center;
+        }
+
+            .container a.btn-view-termini {
+                color: #fff; /* Bijeli tekst za button unutar crnog container-a */
+            }
+    </style>
+</head>
+<body>
+    <div class="vertical-container">
+        <div class="form-container">
+            <h2>Prijavi termin:</h2>
+            <form asp-action="CreateTermin">
+                <div class="form-group">
+                    <label for="Sala">Sala</label>
+                    <select class="form-control" id="Sala" name="Sala" required>
+                        @foreach (var sala in Enum.GetValues(typeof(VitalFlow.Models.Sale)))
+                        {
+                            <option value="@sala">@sala</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Datum">Datum</label>
+                    <input type="date" class="form-control" id="Datum" name="Datum" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddYears(1).ToString("yyyy-MM-dd")" required>
+                </div>
+                <div class="form-group">
+                    <label for="Vrijeme">Vrijeme</label>
+                    <select class="form-control" id="Vrijeme" name="Vrijeme" required>
+                        @foreach (var vrijeme in Enum.GetValues(typeof(VitalFlow.Models.Vrijeme)))
+                        {
+                            <option value="@vrijeme">@vrijeme</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Prijavi Termin</button>
+            </form>
+        </div>
+
+        <div class="form-container">
+            <div class="button-group">
+                @if (ViewBag.HasAccess)
+                {
+                    <a asp-controller="Zaliha" asp-action="Index" class="btn btn-secondary">Stanje Zalihe</a>
+                    <a asp-controller="Zahtjev" asp-action="Index" class="btn btn-secondary">Zahtjevi Klinike</a>
+                }
+                else
+                {
+                    <button class="btn btn-secondary" disabled>Stanje Zalihe</button>
+                    <button class="btn btn-secondary" disabled>Zahtjevi Klinike</button>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+﻿@page
+@model VitalFlow.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    .transparent-form {
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Centriranje sadržaja vertikalno */
+        padding: 30px;
+        padding-top: 50px;
+        color: white;
+        box-sizing: border-box;
+    }
+
+        .transparent-form * {
+            box-sizing: border-box;
+        }
+
+        .transparent-form form {
+            width: 100%;
+        }
+
+        .transparent-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .transparent-form .form-control {
+            width: 100%;
+        }
+
+        .transparent-form input[type="date"] {
+            width: 100%;
+        }
+
+        .transparent-form button {
+            width: 100%; /* Puno širine */
+            margin-top: 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+            .transparent-form button:hover {
+                background-color: #c82333;
+            }
+
+        /* Stilizacija labela */
+        .transparent-form label {
+            margin-bottom: 8px;
+        }
+
+    .text-color {
+        color: black;
+        text-align: center;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .login-link a {
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+
+<h1 class="text-color">Sign Up</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6 transparent-form">
+        <form method="post">
+            <h2>@Model.ReturnUrl</h2>
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Input.ImeIPrezime" class="control-label"></label>
+                <input asp-for="Input.ImeIPrezime" class="form-control" />
+                <span asp-validation-for="Input.ImeIPrezime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Email" class="control-label"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password" class="control-label"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="control-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.DatumRođenja" class="control-label"></label>
+                <input asp-for="Input.DatumRođenja" class="form-control" type="date" />
+                <span asp-validation-for="Input.DatumRođenja" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Jmbg" class="control-label"></label>
+                <input asp-for="Input.Jmbg" class="form-control" />
+                <span asp-validation-for="Input.Jmbg" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.KrvnaGrupa" class="control-label"></label>
+                <select asp-for="Input.KrvnaGrupa" class="form-control">
+                    @foreach (var value in Enum.GetValues(typeof(VitalFlow.Models.KrvnaGrupa)))
+                    {
+                        <option value="@value">@value</option>
+                    }
+                </select>
+                <span asp-validation-for="Input.KrvnaGrupa" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+
+<div class="login-link">
+    <a asp-page="./Login">Imaš registrovan profil? Log in.</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

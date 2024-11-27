@@ -1,0 +1,115 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    .transparent-border {
+        border: 2px solid black;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centriranje sadržaja vertikalno */
+        color: white; /* Set default text color to white */
+    }
+
+        .transparent-border h1,
+        .transparent-border h2,
+        .transparent-border h3,
+        .transparent-border p,
+        .transparent-border a {
+            color: white; /* Ensure specific elements also have white color */
+        }
+
+        .transparent-border input,
+        .transparent-border button,
+        .transparent-border label,
+        .transparent-border span {
+            color: black; /* Ensure input text and labels retain default color */
+        }
+
+    .naslov h1 {
+        color: black;
+        text-align: center;
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    /* Stilizacija linkova */
+    .transparent-border p {
+        margin-bottom: 10px; /* Mali razmak ispod paragrafa */
+        text-align: center; /* Centriranje linkova */
+    }
+
+    /* Stilizacija buttona */
+    #login-submit {
+        background-color: #dc3545; /* Crvena boja */
+        border-color: #dc3545; /* Boja ivice */
+    }
+
+        #login-submit:hover {
+            background-color: #c82333; /* Tamnija nijansa crvene boje na hover */
+        }
+
+    h2 {
+        text-align: center;
+    }
+
+</style>
+
+<div class="transparent-border">
+    <div class="col-md-6">
+        <section>
+            <form id="account" method="post">
+                <h2>Log in</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label text-white">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div class="p-2">
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registracija profila</a>
+                    </p>
+                    <p>
+                        <a asp-action="Create" asp-controller="Zahtjev">Pristup formi za kliničke zahtjeve</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Ponovo posalji validaciju Email-a</a>
+                    </p>
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Zaboravili ste lozinku?</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
